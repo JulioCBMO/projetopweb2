@@ -4,11 +4,20 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
+@Entity
 @Data
 public class Participante implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private long id;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     private String nome;
     
@@ -16,6 +25,8 @@ public class Participante implements Serializable {
 
     private boolean admin;
 
+    @ManyToMany
+    @JoinTable(name = "participante_corrida")
     private List<Corrida> corridasFeitas;
 
 }

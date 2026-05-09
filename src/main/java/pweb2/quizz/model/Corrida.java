@@ -4,11 +4,20 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 @Data
 public class Corrida implements Serializable {
-    private static final long serialVersionUID = 1L;
     
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String titulo;
 
@@ -18,5 +27,6 @@ public class Corrida implements Serializable {
 
     private Boolean ativa;
 
+    @OneToMany(mappedBy = "corrida", cascade = CascadeType.ALL)
     private List<Pergunta> perguntas;
 }
