@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +28,6 @@ public class Corrida implements Serializable {
 
     private Boolean ativa;
 
-    @OneToMany(mappedBy = "corrida", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "corrida", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pergunta> perguntas;
 }

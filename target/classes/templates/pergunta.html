@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pergunta</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <span>
+            Pergunta
+            <span th:text="${numeroPergunta}"></span>
+            /
+            <span th:text="${totalPerguntas}"></span>
+        </span>
+
+        <span>
+            Tempo restante:
+            <span th:text="${tempoRestante}"></span>s
+        </span>
+    </div>
+
+    <div class="pergunta">
+        <h2 th:text="${pergunta.enunciado}"></h2>
+    </div>
+
+    <div class="alternativas">
+
+        <div th:each="alt, iterStat : ${pergunta.alternativas}">
+
+            <form th:action="@{/corrida/responder}" method="post">
+
+                <input type="hidden" name="resposta" th:value="${iterStat.index}">
+
+                <button type="submit" th:text="${alt}"></button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +23,7 @@ public class Pergunta implements Serializable {
 
     private String enunciado;
 
-    @ElementCollection
+    @ElementCollection( fetch = FetchType.EAGER)
     private List<String> alternativas;
 
     private Integer respostaCorreta;

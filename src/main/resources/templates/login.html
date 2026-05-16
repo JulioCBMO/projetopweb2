@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QuizzGame</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="centralizado">
+<div class="container">
+    <div class="card">
+        <h1 class="title">QUIZZGAME</h1>
+
+        <!-- Mensagem de erro vinda do Flash -->
+        <div class="error-messages" th:if="${erro}">
+            <p class="error" th:text="${erro}"></p>
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <input
+                type="text"
+                name="nome"
+                placeholder="Digite seu nome..."
+                class="input"
+            />
+            <button class="btn" type="submit">
+                COMEÇAR QUIZ
+            </button>
+        </form>
+
+        <!-- Link para admin -->
+        <p style="margin-top:15px; text-align:center;">
+            <a th:href="@{/admin/login}">Entrar como Admin</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
