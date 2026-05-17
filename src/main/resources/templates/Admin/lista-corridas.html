@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Corridas - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="scrollavel">
+<div class="container-col">
+    
+    <h1 class="title">Painel Admin - Corridas</h1>
+
+    <div class="alert alert-sucesso" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/admin/corridas/nova}">
+            <button class="btn" style="background: var(--alt-4); box-shadow: 0 6px 0 #27ae60;">+ Nova Corrida</button>
+        </a>
+    </div>
+
+    <div th:if="${corridas.isEmpty()}" class="card">
+        <p style="text-align: center;">Nenhuma corrida cadastrada.</p>
+    </div>
+
+    <div th:each="corrida : ${corridas}" class="corrida-card" style="width: 100%; max-width: 600px;">
+        <h2 th:text="${corrida.titulo}"></h2>
+        <p th:text="${corrida.descricao}"></p>
+        <p>⏱ Tempo: <span th:text="${corrida.tempoSegundos}"></span>s</p>
+        <p>Status: <span th:text="${corrida.ativa} ? 'Ativa 🟢' : 'Inativa 🔴'"></span></p>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <a th:href="@{/admin/corridas/{id}/editar(id=${corrida.id})}" style="flex: 1;">
+                <button class="btn" style="background: var(--alt-2); box-shadow: 0 6px 0 #1a6aa5; padding: 8px;">Editar</button>
+            </a>
+            <a th:href="@{/admin/corridas/{id}/excluir(id=${corrida.id})}" style="flex: 1;">
+                <button class="btn" style="background: var(--alt-1); box-shadow: 0 6px 0 #c0392b; padding: 8px;">Excluir</button>
+            </a>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <a th:href="@{/lobby}">
+            <button class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">Voltar ao Lobby</button>
+        </a>
+    </div>
+
+</div>
+</body>
+</html>
