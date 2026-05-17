@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Corrida</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="centralizado">
+<div class="container">
+    <div class="card">
+        <h1 class="title" th:text="${corrida.id == null} ? 'Nova Corrida' : 'Editar Corrida'"></h1>
+
+        <form th:action="@{/admin/corridas/salvar}" th:object="${corrida}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Título:</label>
+            <input type="text" th:field="*{titulo}" class="input" required/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Descrição:</label>
+            <input type="text" th:field="*{descricao}" class="input" required/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Tempo (segundos):</label>
+            <input type="number" th:field="*{tempoSegundos}" class="input" required min="1"/>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <input type="checkbox" th:field="*{ativa}" id="ativa" style="transform: scale(1.5);"/>
+                <label for="ativa" style="font-weight: 600;">Corrida Ativa</label>
+            </div>
+
+            <button class="btn" type="submit">Salvar Corrida</button>
+        </form>
+
+        <p style="margin-top: 15px; text-align: center;">
+            <a th:href="@{/admin/corridas}" style="color: rgba(255,255,255,0.6);">Cancelar</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
