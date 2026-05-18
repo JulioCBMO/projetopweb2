@@ -29,6 +29,9 @@
         <p>Status: <span th:text="${corrida.ativa} ? 'Ativa 🟢' : 'Inativa 🔴'"></span></p>
         
         <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <a th:href="@{/admin/corridas/{id}/perguntas(id=${corrida.id})}" style="flex: 1;">
+                <button class="btn" style="background: var(--alt-4); box-shadow: 0 6px 0 #27ae60; padding: 8px;">Ver Perguntas</button>
+            </a>
             <a th:href="@{/admin/corridas/{id}/editar(id=${corrida.id})}" style="flex: 1;">
                 <button class="btn" style="background: var(--alt-2); box-shadow: 0 6px 0 #1a6aa5; padding: 8px;">Editar</button>
             </a>
