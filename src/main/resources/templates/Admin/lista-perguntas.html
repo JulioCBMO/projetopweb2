@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Perguntas - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="scrollavel">
+<div class="container-col">
+    
+    <h1 class="title">Perguntas da Corrida</h1>
+    <h3 style="text-align: center; margin-bottom: 20px; color: rgba(255,255,255,0.7);" th:text="${corrida.titulo}"></h3>
+
+    <div class="alert alert-sucesso" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/admin/corridas/{id}/perguntas/nova(id=${corrida.id})}">
+            <button class="btn" style="background: var(--alt-4); box-shadow: 0 6px 0 #27ae60;">+ Nova Pergunta</button>
+        </a>
+    </div>
+
+    <div th:if="${perguntas.isEmpty()}" class="card">
+        <p style="text-align: center;">Nenhuma pergunta cadastrada para esta corrida.</p>
+    </div>
+
+    <div th:each="pergunta, iter : ${perguntas}" class="corrida-card" style="width: 100%; max-width: 600px;">
+        <h2 th:text="'Nº ' + ${iter.count} + ': ' + ${pergunta.enunciado}"></h2>
+        
+        <ul style="margin: 15px 0; padding-left: 20px; color: rgba(255,255,255,0.8); list-style-type: none;">
+            <li th:each="alt, altIter : ${pergunta.alternativas}" 
+                th:style="${altIter.index == pergunta.respostaCorreta} ? 'color: var(--alt-4); font-weight: bold;' : ''"
+                th:text="${altIter.index} + ') ' + ${alt} + ${altIter.index == pergunta.respostaCorreta ? ' (Correta ✅)' : ''}"
+                style="margin-bottom: 5px;">
+            </li>
+        </ul>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <a th:href="@{/admin/corridas/{corridaId}/perguntas/{id}/excluir(corridaId=${corrida.id}, id=${pergunta.id})}" style="flex: 1;">
+                <button class="btn" style="background: var(--alt-1); box-shadow: 0 6px 0 #c0392b; padding: 8px;">Excluir</button>
+            </a>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <a th:href="@{/admin/corridas}">
+            <button class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">Voltar para Corridas</button>
+        </a>
+    </div>
+
+</div>
+</body>
+</html>
