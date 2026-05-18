@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Pergunta</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="scrollavel">
+<div class="container-col">
+    <div class="card" style="max-width: 600px; width: 100%;">
+        <h1 class="title">Nova Pergunta</h1>
+
+        <form th:action="@{/admin/corridas/{corridaId}/perguntas/salvar(corridaId=${corridaId})}" th:object="${pergunta}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Enunciado da Pergunta:</label>
+            <input type="text" th:field="*{enunciado}" class="input" required placeholder="Ex: O que significa JVM?"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600; color: var(--alt-1);">Alternativa 1 (Índice 0):</label>
+            <input type="text" name="alternativas" th:value="${pergunta.alternativas != null && pergunta.alternativas.size() > 0 ? pergunta.alternativas[0] : ''}" class="input" required placeholder="Texto da alternativa 1"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600; color: var(--alt-2);">Alternativa 2 (Índice 1):</label>
+            <input type="text" name="alternativas" th:value="${pergunta.alternativas != null && pergunta.alternativas.size() > 1 ? pergunta.alternativas[1] : ''}" class="input" required placeholder="Texto da alternativa 2"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600; color: var(--alt-3);">Alternativa 3 (Índice 2):</label>
+            <input type="text" name="alternativas" th:value="${pergunta.alternativas != null && pergunta.alternativas.size() > 2 ? pergunta.alternativas[2] : ''}" class="input" required placeholder="Texto da alternativa 3"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600; color: var(--alt-4);">Alternativa 4 (Índice 3):</label>
+            <input type="text" name="alternativas" th:value="${pergunta.alternativas != null && pergunta.alternativas.size() > 3 ? pergunta.alternativas[3] : ''}" class="input" required placeholder="Texto da alternativa 4"/>
+
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Opção da Resposta Correta:</label>
+            <select th:field="*{respostaCorreta}" class="input" style="background: rgba(0,0,0,0.5); color: white;" required>
+                <option value="0">Alternativa 1 (Índice 0)</option>
+                <option value="1">Alternativa 2 (Índice 1)</option>
+                <option value="2">Alternativa 3 (Índice 2)</option>
+                <option value="3">Alternativa 4 (Índice 3)</option>
+            </select>
+
+            <button class="btn" type="submit" style="margin-top: 10px;">Salvar Pergunta</button>
+        </form>
+
+        <p style="margin-top: 20px; text-align: center;">
+            <a th:href="@{/admin/corridas/{id}/perguntas(id=${corridaId})}" style="color: rgba(255,255,255,0.6);">Cancelar</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
