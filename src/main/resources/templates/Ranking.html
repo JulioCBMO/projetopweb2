@@ -15,6 +15,16 @@
         <p style="text-align:center;">Nenhuma corrida disputada ainda.</p>
     </div>
 
+    <form method="get" action="/ranking">
+    <label for="sizeSelect">Itens por página:</label>
+    <select id="sizeSelect" name="size" onchange="this.form.submit()">
+        <option value="2" th:selected="${navPage.pageSize == 2}">2</option>
+        <option value="4" th:selected="${navPage.pageSize == 4}">4</option>
+        <option value="6" th:selected="${navPage.pageSize == 6}">6</option>
+    </select>
+    <input type="hidden" name="page" th:value="${navPage.currentPage}" />
+</form>
+
     <!-- Tabela de ranking -->
     <table class="ranking-table" th:if="${!resultados.isEmpty()}">
         <thead>
@@ -37,6 +47,8 @@
             </tr>
         </tbody>
     </table>
+
+    <div th:replace="~{fragments/paging :: paginator('ranking', ${navPage})}"></div>
 
     <div style="margin-top: 20px; display: flex; gap: 10px;">
         <a th:href="@{/lobby}">
