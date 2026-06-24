@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpSession;
 import java.util.Base64;
 import pweb2.quizz.Repository.CorridaRepository;
 import pweb2.quizz.Repository.PerguntaRepository;
@@ -32,11 +31,7 @@ public class AdminController {
     @Autowired
     private PerguntaRepository perguntaRepository;
 
-    @GetMapping("/login")
-    public String loginAdmin(HttpSession session) {
-        session.setAttribute("participante", "admin_master");
-        return "redirect:/admin/corridas";
-    }
+    // O MÉTODO MANUAL @GetMapping("/login") FOI DELETADO DAQUI!
 
     @GetMapping("/corridas")
     public String listarCorridas(@RequestParam(defaultValue = "1") int page,
@@ -114,7 +109,6 @@ public class AdminController {
         return "admin/form-pergunta";
     }
 
-    // --- ATENÇÃO: MÉTODO ATUALIZADO COM UPLOAD DE ARQUIVO ---
     @PostMapping("/corridas/{corridaId}/perguntas/salvar")
     public String salvarPergunta(@PathVariable Long corridaId, Pergunta pergunta, 
                                  @RequestParam(value = "arquivoImagem", required = false) MultipartFile arquivoImagem, 
@@ -123,7 +117,6 @@ public class AdminController {
             .orElseThrow(() -> new IllegalArgumentException("Corrida inválida:" + corridaId));
         pergunta.setCorrida(corrida);
         
-        // Lógica para manter a imagem antiga se for uma edição e o admin não enviar uma nova
         if (pergunta.getId() != null) {
             Pergunta existente = perguntaRepository.findById(pergunta.getId()).orElse(null);
             if (existente != null && existente.getImagemBase64() != null) {
@@ -131,7 +124,6 @@ public class AdminController {
             }
         }
 
-        // Lógica para converter a imagem enviada em Base64
         if (arquivoImagem != null && !arquivoImagem.isEmpty()) {
             try {
                 String base64Image = Base64.getEncoder().encodeToString(arquivoImagem.getBytes());
