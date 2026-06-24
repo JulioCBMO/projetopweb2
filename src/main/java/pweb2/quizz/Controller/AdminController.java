@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.Base64;
 import pweb2.quizz.Repository.CorridaRepository;
 import pweb2.quizz.Repository.PerguntaRepository;
 import pweb2.quizz.Ui.NavPageBuilder;
@@ -112,11 +114,34 @@ public class AdminController {
         return "admin/form-pergunta";
     }
 
+    // --- ATENÇÃO: MÉTODO ATUALIZADO COM UPLOAD DE ARQUIVO ---
     @PostMapping("/corridas/{corridaId}/perguntas/salvar")
-    public String salvarPergunta(@PathVariable Long corridaId, Pergunta pergunta, RedirectAttributes flash) {
+    public String salvarPergunta(@PathVariable Long corridaId, Pergunta pergunta, 
+                                 @RequestParam(value = "arquivoImagem", required = false) MultipartFile arquivoImagem, 
+                                 RedirectAttributes flash) {
         Corrida corrida = corridaRepository.findById(corridaId)
             .orElseThrow(() -> new IllegalArgumentException("Corrida inválida:" + corridaId));
         pergunta.setCorrida(corrida);
+        
+        // Lógica para manter a imagem antiga se for uma edição e o admin não enviar uma nova
+        if (pergunta.getId() != null) {
+            Pergunta existente = perguntaRepository.findById(pergunta.getId()).orElse(null);
+            if (existente != null && existente.getImagemBase64() != null) {
+                pergunta.setImagemBase64(existente.getImagemBase64());
+            }
+        }
+
+        // Lógica para converter a imagem enviada em Base64
+        if (arquivoImagem != null && !arquivoImagem.isEmpty()) {
+            try {
+                String base64Image = Base64.getEncoder().encodeToString(arquivoImagem.getBytes());
+                pergunta.setImagemBase64(base64Image);
+            } catch (Exception e) {
+                flash.addFlashAttribute("erro", "Erro ao processar a imagem.");
+                return "redirect:/admin/corridas/" + corridaId + "/perguntas";
+            }
+        }
+
         perguntaRepository.save(pergunta);
         flash.addFlashAttribute("mensagem", "Pergunta salva com sucesso!");
         return "redirect:/admin/corridas/" + corridaId + "/perguntas";
