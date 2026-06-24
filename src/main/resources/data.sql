@@ -68,15 +68,15 @@ INSERT INTO pergunta_alternativas VALUES (8, 'Um campo qualquer'), (8, 'Identifi
 DELETE FROM pergunta_alternativas WHERE pergunta_id = 9;
 INSERT INTO pergunta_alternativas VALUES (9, 'REMOVE'), (9, 'ERASE'), (9, 'DROP'), (9, 'DELETE');
 
--- ===== PARTICIPANTES =====
-MERGE INTO participante (id, nome, email, admin)
-KEY(id) VALUES (1, 'admin', 'admin@quiz.com', true);
+-- ===== PARTICIPANTES (ATUALIZADO PARA SPRING SECURITY - Senha: 12345) =====
+MERGE INTO participante (id, nome, senha, role)
+KEY(id) VALUES (1, 'admin', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_ADMIN');
 
-MERGE INTO participante (id, nome, email, admin)
-KEY(id) VALUES (2, 'joao', 'joao@quiz.com', false);
+MERGE INTO participante (id, nome, senha, role)
+KEY(id) VALUES (2, 'joao', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_PARTICIPANTE');
 
-MERGE INTO participante (id, nome, email, admin)
-KEY(id) VALUES (3, 'maria', 'maria@quiz.com', false);
+MERGE INTO participante (id, nome, senha, role)
+KEY(id) VALUES (3, 'maria', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_PARTICIPANTE');
 
 -- ===== RESULTADOS (para ranking não ficar vazio) =====
 MERGE INTO resultado (id, pontuacao, data_hora, corrida_id, participante_id)
