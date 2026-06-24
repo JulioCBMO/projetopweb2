@@ -1,17 +1,22 @@
 package pweb2.quizz.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import pweb2.quizz.Repository.CorridaRepository;
 import pweb2.quizz.Repository.PerguntaRepository;
+import pweb2.quizz.Ui.NavPageBuilder;
 import pweb2.quizz.model.Corrida;
 import pweb2.quizz.model.Pergunta;
 
@@ -32,9 +37,14 @@ public class AdminController {
     }
 
     @GetMapping("/corridas")
-    public String listarCorridas(Model model) {
-        model.addAttribute("corridas", corridaRepository.findAll());
-        return "admin/lista-corridas";
+    public String listarCorridas(@RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "5") int size,
+        Model model) {
+            Pageable pageable = PageRequest.of(page - 1, size);
+            Page<Corrida> pagina = corridaRepository.findAll(pageable);
+            model.addAttribute("corridas", pagina);
+            model.addAttribute("navPage", NavPageBuilder.build(pagina));
+            return "admin/lista-corridas";
     }
 
     @GetMapping("/corridas/nova")
@@ -69,11 +79,17 @@ public class AdminController {
     }
 
     @GetMapping("/corridas/{corridaId}/perguntas")
-    public String listarPerguntas(@PathVariable Long corridaId, Model model) {
+    public String listarPerguntas(@PathVariable Long corridaId,
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "5") int size,
+        Model model) {
         Corrida corrida = corridaRepository.findById(corridaId)
             .orElseThrow(() -> new IllegalArgumentException("Corrida inválida:" + corridaId));
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Pergunta> pagina = perguntaRepository.findByCorridaId(corridaId, pageable);
         model.addAttribute("corrida", corrida);
-        model.addAttribute("perguntas", corrida.getPerguntas());
+        model.addAttribute("perguntas", pagina);
+        model.addAttribute("navPage", NavPageBuilder.build(pagina));
         return "admin/lista-perguntas";
     }
 

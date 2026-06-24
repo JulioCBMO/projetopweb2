@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+<body>
+    
+    <section th:fragment="paginator(resourcePath, navPage)">
+        <nav th:if="${navPage.totalPages > 0}">
+            <ul class="paginador" style="list-style: none; padding: 0;">
+
+                <!-- Primeira página -->
+                <li class="pag-item" th:classappend="${navPage.currentPage == 1} ? 'desabilitado'">
+                    <a th:replace="fragments/paging :: page(1, ${navPage.pageSize}, '«', 'Primeira', ${resourcePath})"></a>
+                </li>
+
+                <!-- Página anterior -->
+                <li class="pag-item" th:classappend="${navPage.currentPage == 1} ? 'desabilitado'">
+                    <a th:replace="fragments/paging :: page(${navPage.currentPage - 1}, ${navPage.pageSize}, 'Anterior', 'Página anterior', ${resourcePath})"></a>
+                </li>
+
+                <!-- Reticências à esquerda -->
+                <li class="pag-item desabilitado" th:if="${navPage.currentPage - 2 > 1}">
+                    <span class="pag-link">…</span>
+                </li>
+
+                <!-- Links para páginas próximas -->
+                <li class="pag-item" th:classappend="${page == navPage.currentPage} ? 'ativo'"
+                    th:each="page : ${#numbers.sequence(
+                        navPage.currentPage > 2 ? navPage.currentPage - 2 : 1,
+                        navPage.currentPage + 2 < navPage.totalPages ? navPage.currentPage + 2 : navPage.totalPages
+                    )}">
+                    <a th:replace="fragments/paging :: page(${page}, ${navPage.pageSize}, ${page}, 'Página ' + ${page}, ${resourcePath})"></a>
+                </li>
+
+                <!-- Reticências à direita -->
+                <li class="pag-item desabilitado" th:if="${navPage.currentPage + 2 < navPage.totalPages}">
+                    <span class="pag-link">…</span>
+                </li>
+
+                <!-- Próxima página -->
+                <li class="pag-item" th:classappend="${navPage.currentPage == navPage.totalPages} ? 'desabilitado'">
+                    <a th:replace="fragments/paging :: page(${navPage.currentPage + 1}, ${navPage.pageSize}, 'Próxima', 'Próxima página', ${resourcePath})"></a>
+                </li>
+
+                <!-- Última página -->
+                <li class="pag-item" th:classappend="${navPage.currentPage == navPage.totalPages} ? 'desabilitado'">
+                    <a th:replace="fragments/paging :: page(${navPage.totalPages}, ${navPage.pageSize}, '»', 'Última', ${resourcePath})"></a>
+                </li>
+
+            </ul>
+        </nav>
+    </section>
+
+    <a th:fragment="page(pageNum, pageSize, label, tooltip, resourcePath)"
+       class="pag-link"
+       th:href="@{'/' + ${resourcePath} + '?page=' + ${pageNum} + '&size=' + ${pageSize}}"
+       th:title="${tooltip}"
+       rel="tooltip">
+        [[${label}]]
+    </a>
+
+    <div th:fragment="sizeSelector(resourcePath, navPage)">
+        <form method="get" th:action="@{'/' + ${resourcePath}}" class="size-selector">
+            <label for="sizeSelect">Itens por página:</label>
+            <select id="sizeSelect" name="size" onchange="this.form.submit()">
+                <option value="2" th:selected="${navPage.pageSize == 2}">2</option>
+                <option value="4" th:selected="${navPage.pageSize == 4}">4</option>
+                <option value="6" th:selected="${navPage.pageSize == 6}">6</option>
+            </select>
+            <input type="hidden" name="page" th:value="${navPage.currentPage}" />
+        </form>
+    </div>
+
+</body>
+</html>

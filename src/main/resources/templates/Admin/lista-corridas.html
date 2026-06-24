@@ -22,7 +22,11 @@
         <p style="text-align: center;">Nenhuma corrida cadastrada.</p>
     </div>
 
-    <div th:each="corrida : ${corridas}" class="corrida-card" style="width: 100%; max-width: 600px;">
+    <div style="display: flex; justify-content: flex-end; width: 90%; max-width: 700px;">
+    <div th:replace="~{fragments/paging :: sizeSelector('admin/corridas', ${navPage})}"></div>
+    </div>
+
+    <div th:each="corrida : ${corridas.content}" class="corrida-card" style="width: 100%; max-width: 600px;">
         <h2 th:text="${corrida.titulo}"></h2>
         <p th:text="${corrida.descricao}"></p>
         <p>⏱ Tempo: <span th:text="${corrida.tempoSegundos}"></span>s</p>
@@ -40,6 +44,9 @@
             </a>
         </div>
     </div>
+
+    <div th:replace="~{fragments/paging :: paginator('admin/corridas', ${navPage})}"></div>
+    
 
     <div style="margin-top: 30px;">
         <a th:href="@{/lobby}">

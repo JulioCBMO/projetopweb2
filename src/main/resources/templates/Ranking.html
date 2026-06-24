@@ -10,20 +10,15 @@
 
     <h1 class="title">🏆 Ranking</h1>
 
+    <!-- Seletor de tamanho -->
+        <div class="w-100" style="display: flex; justify-content: flex-end;">
+            <div th:replace="~{fragments/paging :: sizeSelector('ranking', ${navPage})}"></div>
+        </div>
+
     <!-- Sem resultados -->
     <div th:if="${resultados.isEmpty()}" class="card">
         <p style="text-align:center;">Nenhuma corrida disputada ainda.</p>
     </div>
-
-    <form method="get" action="/ranking">
-    <label for="sizeSelect">Itens por página:</label>
-    <select id="sizeSelect" name="size" onchange="this.form.submit()">
-        <option value="2" th:selected="${navPage.pageSize == 2}">2</option>
-        <option value="4" th:selected="${navPage.pageSize == 4}">4</option>
-        <option value="6" th:selected="${navPage.pageSize == 6}">6</option>
-    </select>
-    <input type="hidden" name="page" th:value="${navPage.currentPage}" />
-</form>
 
     <!-- Tabela de ranking -->
     <table class="ranking-table" th:if="${!resultados.isEmpty()}">
@@ -36,29 +31,24 @@
                 <th>Data</th>
             </tr>
         </thead>
-        <tbody>
-            <tr th:each="r, iterStat : ${resultados}"
-                th:classappend="${r.participante.nome == nomeParticipante} ? 'destaque'">
-                <td th:text="${iterStat.count}"></td>
-                <td th:text="${r.participante.nome}"></td>
-                <td th:text="${r.corrida.titulo}"></td>
-                <td th:text="${r.pontuacao}"></td>
-                <td th:text="${#temporals.format(r.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-        </tbody>
-    </table>
+       <tbody>
+                <tr th:each="resultado : ${resultados.content}" th:classappend="${resultado.participante.nome == nomeParticipante} ? 'destaque'">
+                    <td th:text="${resultado.participante.nome}"></td>
+                    <td th:text="${resultado.corrida.titulo}"></td>
+                    <td th:text="${resultado.pontuacao}"></td>
+                    <td th:text="${#temporals.format(resultado.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr th:if="${resultados.empty}">
+                    <td colspan="4" style="text-align: center; color: rgba(255,255,255,0.6);">Nenhum resultado registrado ainda.</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div th:replace="~{fragments/paging :: paginator('ranking', ${navPage})}"></div>
+        <!-- Paginador -->
+        <div th:replace="~{fragments/paging :: paginator('ranking', ${navPage})}"></div>
 
-    <div style="margin-top: 20px; display: flex; gap: 10px;">
-        <a th:href="@{/lobby}">
-            <button class="btn">Voltar ao Lobby</button>
-        </a>
-        <a th:href="@{/logout}">
-            <button class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">
-                Sair
-            </button>
-        </a>
+        <a th:href="@{/lobby}" class="btn" style="width: auto; padding: 12px 30px; margin-top: 20px;">Voltar ao Lobby</a>
+    </div>
     </div>
 
 </div>
