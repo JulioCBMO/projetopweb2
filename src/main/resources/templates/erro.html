@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="centralizado">
+    <div class="container-col">
+        <div class="card" style="text-align: center;">
+            <h1 style="color: var(--accent);">⚠️ Ops!</h1>
+            <p style="font-size: 1.2rem; margin: 20px 0;" th:text="${mensagem}">Erro inesperado</p>
+            <a th:href="@{/lobby}" class="btn" style="width: auto; padding: 12px 30px; margin-top: 20px;">Voltar ao Lobby</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"><html xmlns:th="http://www.thymeleaf.org">
+   
 <head>
+    <div th:replace="~{fragments/nav :: navbar(${nomeParticipante})}"></div>
     <meta charset="UTF-8">
     <title>Lobby - QuizzGame</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="scrollavel">
-<div class="container" style="flex-direction: column; gap: 20px;">
     
-    <!-- Cabeçalho -->
-    <div style="text-align: center;">
-        <h1 class="title">CORRIDAS</h1>
-        <p>Olá, <strong th:text="${nomeParticipante}"></strong>!</p>
-        
-    </div>
+<div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px;">
 
     <!-- Mensagem flash -->
     <div class="error-messages" th:if="${mensagem}">
@@ -41,18 +37,6 @@
         <p>Nenhuma corrida disponível no momento.</p>
     </div>
 </br> 
-
-    <!-- Botões de navegação -->
-    <div style="display: flex; gap: 10px;">
-        <a th:href="@{/ranking}">
-            <button class="btn">Ver Ranking 🏆</button>
-        </a>
-        <a th:href="@{/logout}">
-            <button class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">
-                Sair
-            </button>
-        </a>
-    </div>
 </div>
 </body>
 </html>

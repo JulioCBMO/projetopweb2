@@ -1,50 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pergunta</title>
-
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="centralizado">
+    <div class="container-col" style="justify-content: center;">
+        
+        <div th:if="${mensagem}" class="alert" th:classappend="${mensagem.contains('✅')} ? 'alert-sucesso' : 'alert-erro'" th:text="${mensagem}"></div>
 
-<div class="container">
-
-    <div class="topo">
-        <span>
-            Pergunta
-            <span th:text="${numeroPergunta}"></span>
-            /
-            <span th:text="${totalPerguntas}"></span>
-        </span>
-
-        <span>
-            Tempo restante:
-            <span th:text="${tempoRestante}"></span>s
-        </span>
-    </div>
-
-    <div class="pergunta">
-        <h2 th:text="${pergunta.enunciado}"></h2>
-    </div>
-
-    <div class="alternativas">
-
-        <div th:each="alt, iterStat : ${pergunta.alternativas}">
-
-            <form th:action="@{/corrida/responder}" method="post">
-
-                <input type="hidden" name="resposta" th:value="${iterStat.index}">
-
-                <button type="submit" th:text="${alt}"></button>
-
-            </form>
-
+        <div class="topo">
+            <span>Pergunta <span th:text="${numeroPergunta}"></span>/<span th:text="${totalPerguntas}"></span></span>
+            <span>⏱ <span th:text="${tempoRestante}"></span>s</span>
         </div>
 
+        <div class="card" style="width: 90%; max-width: 700px; padding: 2rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem;" th:text="${pergunta.enunciado}"></h2>
+
+            <form th:action="@{/corrida/responder}" method="post" class="alternativas">
+                <button type="submit" name="resposta" th:value="0" class="btn-alt">A) <span th:text="${pergunta.alternativas[0]}"></span></button>
+                <button type="submit" name="resposta" th:value="1" class="btn-alt">B) <span th:text="${pergunta.alternativas[1]}"></span></button>
+                <button type="submit" name="resposta" th:value="2" class="btn-alt">C) <span th:text="${pergunta.alternativas[2]}"></span></button>
+                <button type="submit" name="resposta" th:value="3" class="btn-alt">D) <span th:text="${pergunta.alternativas[3]}"></span></button>
+            </form>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a th:href="@{/lobby}" class="btn" style="width: auto; padding: 12px 30px; background: #555; box-shadow: none;">Sair</a>
+        </div>
     </div>
-
-</div>
-
 </body>
 </html>

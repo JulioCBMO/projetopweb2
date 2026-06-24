@@ -23,7 +23,7 @@ public class RankingController {
     @GetMapping("/ranking")
     public String exibirRanking( 
         @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "2") int size,
         HttpSession session,
         Model model) {
        
@@ -35,6 +35,7 @@ public class RankingController {
         model.addAttribute("resultados", paginaResultados);
         model.addAttribute("nomeParticipante", nomeParticipante);
         model.addAttribute("navPage", NavPageBuilder.build(paginaResultados));
+        
         
         return "ranking";
     }

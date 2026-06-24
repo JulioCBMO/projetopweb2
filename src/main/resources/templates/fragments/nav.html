@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <nav th:fragment="navbar(nomeParticipante)" style="
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid var(--accent);
+        padding: 12px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    ">
+        <!-- Logo / Título -->
+        <div>
+            <a th:href="@{/lobby}" style="
+                color: var(--accent);
+                font-weight: 800;
+                font-size: 1.8rem;
+                text-decoration: none;
+                letter-spacing: 2px;
+            ">
+                🏁 Quiz
+            </a>
+        </div>
+
+        
+
+        <!-- Links e usuário -->
+        <div style="display: flex; gap: 25px; align-items: center;">
+            <!-- Link para Ranking (sempre visível) -->
+            <!-- Link para Lobby (sempre visível) -->
+            <a th:href="@{/lobby}" style="
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 6px 14px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                background: rgba(255,255,255,0.05);
+            ">
+                🎮 Lobby
+            </a>
+
+            <a th:href="@{/ranking}" style="
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 6px 14px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                background: rgba(255,255,255,0.05);
+            ">
+                🏆 Ranking
+            </a>
+
+            <!-- Link para Admin (visível apenas se for admin, opcional) -->
+            <a th:href="@{/admin/corridas}" style="
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 6px 14px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                background: rgba(255,255,255,0.05);
+            ">
+                ⚙️ Admin
+            </a>
+
+            <!-- Nome do participante -->
+            <span th:if="${nomeParticipante}" style="
+                color: rgba(255,255,255,0.8);
+                font-weight: 400;
+                border-left: 1px solid rgba(255,255,255,0.2);
+                padding-left: 15px;
+            ">
+                👤 <span th:text="${nomeParticipante}"></span>
+            </span>
+
+            <!-- Botão Sair -->
+            <a th:href="@{/logout}" style="
+                color: var(--accent);
+                text-decoration: none;
+                font-weight: 600;
+                padding: 6px 14px;
+                border-radius: 8px;
+                background: rgba(233, 69, 96, 0.15);
+                transition: all 0.2s;
+            ">
+                🚪 Sair
+            </a>
+        </div>
+    </nav>
+</body>
+</html>

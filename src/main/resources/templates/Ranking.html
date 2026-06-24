@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Ranking</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <div th:replace="~{fragments/nav :: navbar(${nomeParticipante})}"></div>
 </head>
-<body class="scrollavel">
-<div class="container-col">
+<body >
+    <div th:fragment="content" class="container-col">
 
     <h1 class="title">🏆 Ranking</h1>
 
@@ -47,7 +48,6 @@
         <!-- Paginador -->
         <div th:replace="~{fragments/paging :: paginator('ranking', ${navPage})}"></div>
 
-        <a th:href="@{/lobby}" class="btn" style="width: auto; padding: 12px 30px; margin-top: 20px;">Voltar ao Lobby</a>
     </div>
     </div>
 

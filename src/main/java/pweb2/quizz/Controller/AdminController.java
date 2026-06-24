@@ -63,20 +63,40 @@ public class AdminController {
 
     @PostMapping("/corridas/salvar")
     public String salvarCorrida(Corrida corrida, RedirectAttributes flash) {
+        
+        if (corrida.getTitulo() == null || corrida.getTitulo().trim().isEmpty()) {
+        flash.addFlashAttribute("erro", "O título é obrigatório.");
+        return "redirect:/admin/corridas/nova";
+    }
+        if (corrida.getTempoSegundos() == null || corrida.getTempoSegundos() <= 0) {
+        flash.addFlashAttribute("erro", "O tempo deve ser maior que zero.");
+        return "redirect:/admin/corridas/nova";
+    }
         if (corrida.getAtiva() == null) {
-            corrida.setAtiva(false);
-        }
+        corrida.setAtiva(false);
+    }
         corridaRepository.save(corrida);
         flash.addFlashAttribute("mensagem", "Corrida salva com sucesso!");
         return "redirect:/admin/corridas";
     }
+    
+
 
     @GetMapping("/corridas/{id}/excluir")
-    public String excluirCorrida(@PathVariable Long id, RedirectAttributes flash) {
-        corridaRepository.deleteById(id);
-        flash.addFlashAttribute("mensagem", "Corrida excluída com sucesso!");
-        return "redirect:/admin/corridas";
+    public String excluirCorrida(@PathVariable Long corridaId, @PathVariable Long id, RedirectAttributes flash) {
+        try {
+            if (perguntaRepository.existsById(id)) {
+                perguntaRepository.deleteById(id);
+                flash.addFlashAttribute("mensagem", "Pergunta excluída com sucesso!");
+            } else {
+                flash.addFlashAttribute("erro", "Pergunta não encontrada.");
+            }
+        } catch (Exception e) {
+            flash.addFlashAttribute("erro", "Erro ao excluir pergunta: " + e.getMessage());
+        }
+        return "redirect:/admin/corridas/" + corridaId + "/perguntas";
     }
+
 
     @GetMapping("/corridas/{corridaId}/perguntas")
     public String listarPerguntas(@PathVariable Long corridaId,

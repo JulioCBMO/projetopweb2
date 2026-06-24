@@ -8,6 +8,7 @@
 <body class="centralizado">
 <div class="container">
     <div class="card">
+        
         <h1 class="title" th:text="${corrida.id == null} ? 'Nova Corrida' : 'Editar Corrida'"></h1>
 
         <form th:action="@{/admin/corridas/salvar}" th:object="${corrida}" method="post">

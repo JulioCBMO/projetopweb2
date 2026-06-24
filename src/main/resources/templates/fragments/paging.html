@@ -61,16 +61,26 @@
     </a>
 
     <div th:fragment="sizeSelector(resourcePath, navPage)">
-        <form method="get" th:action="@{'/' + ${resourcePath}}" class="size-selector">
-            <label for="sizeSelect">Itens por página:</label>
-            <select id="sizeSelect" name="size" onchange="this.form.submit()">
-                <option value="2" th:selected="${navPage.pageSize == 2}">2</option>
-                <option value="4" th:selected="${navPage.pageSize == 4}">4</option>
-                <option value="6" th:selected="${navPage.pageSize == 6}">6</option>
-            </select>
-            <input type="hidden" name="page" th:value="${navPage.currentPage}" />
-        </form>
-    </div>
+    <form method="get" th:action="@{'/' + ${resourcePath}}" class="size-selector" style="display: flex; align-items: center; gap: 10px;">
+        <label for="sizeInput">Itens por página:</label>
+        <input type="number" id="sizeInput" name="size" 
+            list="tamanhosSugeridos" 
+            min="1" step="1" 
+            th:value="${navPage.pageSize}" 
+            style="width: 100px; padding: 8px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 1rem; -moz-appearance: textfield;"
+       onfocus="this.style.outline='none'">
+            <datalist id="tamanhosSugeridos">
+            <option value="1">
+            <option value="2">
+            <option value="3">
+            <option value="4">
+            <option value="5">
+            <option value="6">
+        </datalist>
+        <input type="hidden" name="page" th:value="${navPage.currentPage}" />
+        <button type="submit" class="btn" style="padding: 8px 16px; width: auto; font-size: 0.9rem; background: var(--accent); box-shadow: 0 4px 0 #c0394d;">Aplicar</button>
+    </form>
+</div>
 
 </body>
 </html>
