@@ -11,7 +11,7 @@
     <div class="card" style="max-width: 600px; width: 100%;">
         <h1 class="title">Nova Pergunta</h1>
 
-        <form th:action="@{/admin/corridas/{corridaId}/perguntas/salvar(corridaId=${corridaId})}" th:object="${pergunta}" method="post">
+        <form th:action="@{/admin/corridas/{corridaId}/perguntas/salvar(corridaId=${corridaId})}" th:object="${pergunta}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}"/>
 
             <label style="display:block; margin-bottom: 5px; font-weight: 600;">Enunciado da Pergunta:</label>
@@ -28,6 +28,11 @@
 
             <label style="display:block; margin-bottom: 5px; font-weight: 600; color: var(--alt-4);">Alternativa 4 (Índice 3):</label>
             <input type="text" name="alternativas" th:value="${pergunta.alternativas != null && pergunta.alternativas.size() > 3 ? pergunta.alternativas[3] : ''}" class="input" required placeholder="Texto da alternativa 4"/>
+
+            <label style="display:block; margin-bottom: 5px; margin-top: 15px; font-weight: 600; color: #fff;">Imagem Opcional (PNG, JPG):</label>
+            <div style="background: rgba(0,0,0,0.3); border: 2px dashed rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                <input type="file" name="arquivoImagem" accept="image/png, image/jpeg" style="color: white;" />
+            </div>
 
             <label style="display:block; margin-bottom: 5px; font-weight: 600;">Opção da Resposta Correta:</label>
             <select th:field="*{respostaCorreta}" class="input" style="background: rgba(0,0,0,0.5); color: white;" required>
