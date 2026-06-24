@@ -16,7 +16,11 @@
         </div>
 
         <div class="card" style="width: 90%; max-width: 700px; padding: 2rem;">
-            <h2 style="text-align: center; margin-bottom: 2rem;" th:text="${pergunta.enunciado}"></h2>
+            <h2 style="text-align: center; margin-bottom: 1.5rem;" th:text="${pergunta.enunciado}"></h2>
+
+            <div th:if="${pergunta.imagemBase64 != null}" style="text-align: center; margin-bottom: 1.5rem;">
+                <img th:src="'data:image/png;base64,' + ${pergunta.imagemBase64}" style="max-width: 100%; max-height: 220px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);" />
+            </div>
 
             <form th:action="@{/corrida/responder}" method="post" class="alternativas">
                 <button type="submit" name="resposta" th:value="0" class="btn-alt">A) <span th:text="${pergunta.alternativas[0]}"></span></button>
