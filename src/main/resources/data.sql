@@ -70,13 +70,16 @@ INSERT INTO pergunta_alternativas VALUES (9, 'REMOVE'), (9, 'ERASE'), (9, 'DROP'
 
 -- ===== PARTICIPANTES (ATUALIZADO PARA SPRING SECURITY - Senha: 12345) =====
 MERGE INTO participante (id, nome, senha, role)
-KEY(id) VALUES (1, 'admin', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_ADMIN');
+KEY(id) VALUES (1, 'admin', '$2a$12$v1faSH0Ui6xzxpnEqlACN.Ivd3MgD4iT/eu2Aqrrmfmiap6qy/Tyy', 'ROLE_ADMIN');
 
 MERGE INTO participante (id, nome, senha, role)
-KEY(id) VALUES (2, 'joao', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_PARTICIPANTE');
+KEY(id) VALUES (2, 'joao', '$2a$12$v1faSH0Ui6xzxpnEqlACN.Ivd3MgD4iT/eu2Aqrrmfmiap6qy/Tyy', 'ROLE_PARTICIPANTE');
 
 MERGE INTO participante (id, nome, senha, role)
-KEY(id) VALUES (3, 'maria', '$2a$10$tZ2.QL/wE.u.d9R8t8a/YOF3t8L1o.A/.p/t.Fz1.Gv4/7.u3392O', 'ROLE_PARTICIPANTE');
+KEY(id) VALUES (3, 'maria', '$2a$12$SAD7hiZBlV.yWMsGp1UnJ.SYoqSJ91ZTTpA/nYh8/JSmo9oXZM6u.', 'ROLE_PARTICIPANTE');
+
+MERGE INTO participante (id, nome, senha, role)
+KEY(id) VALUES (4, 'julio', '$2a$12$SAD7hiZBlV.yWMsGp1UnJ.SYoqSJ91ZTTpA/nYh8/JSmo9oXZM6u.', 'ROLE_PARTICIPANTE');
 
 -- ===== RESULTADOS (para ranking não ficar vazio) =====
 MERGE INTO resultado (id, pontuacao, data_hora, corrida_id, participante_id)
